@@ -47,7 +47,7 @@ class _HomeState extends State<Home> {
             ),
             SizedBox(height: 10),
             Text(
-              "Welcome to flutter!",
+              "Welcome to Flutter!",
               style: TextStyle(
                 fontSize: 22,
               ),
