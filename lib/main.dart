@@ -13,209 +13,112 @@ class IntroApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: true,
-      home: Home(),
-      title: 'Intro app',
-      theme: ThemeData(
+        home: Home(),
+        theme: ThemeData(
           brightness: Brightness.light,
           appBarTheme: AppBarTheme(
               backgroundColor: Colors.pink,
               titleTextStyle: TextStyle(
                   color: Colors.white,
                   fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 1.2
-              )
-          ),
-          textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                  foregroundColor: Colors.pink,
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700
-                  )
-              )
-          ),
-          inputDecorationTheme: InputDecorationTheme(
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(
-                    color: Colors.green,
-                    width: 2
-                )
-            ),
-            disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(
-                    color: Colors.green,
-                    width: 2
-                )
-            ),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(
-                    color: Colors.blueAccent,
-                    width: 2
-                )
-            ),
-            labelStyle: TextStyle(
-                fontSize: 16
-            ),
-            hintStyle: TextStyle(
-                color: Colors.purple.shade200
-            ),
-          )
-      ),
-      darkTheme: ThemeData(
-          brightness: Brightness.dark,
-          appBarTheme: AppBarTheme(
-              backgroundColor: Colors.green,
-              titleTextStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 1.2
-              )
-          ),
-          textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                  foregroundColor: Colors.green,
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700
-                  )
-              )
-          ),
-          inputDecorationTheme: InputDecorationTheme(
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(
-                    color: Colors.green,
-                    width: 2
-                )
-            ),
-            disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(
-                    color: Colors.green,
-                    width: 2
-                )
-            ),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(
-                    color: Colors.blueAccent,
-                    width: 2
-                )
-            ),
-            labelStyle: TextStyle(
-                fontSize: 16
-            ),
-            hintStyle: TextStyle(
-                color: Colors.purple.shade200
-            ),
-          )
-      ),
-      themeMode: ThemeMode.system,
-    );
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.4)),
+        ));
   }
 }
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class Home extends StatelessWidget {
+  Home({super.key});
 
-  @override
-  State<Home> createState() => _HomeState();
-}
+  MySnackBar(message, context) {
+    return ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+  }
 
-class _HomeState extends State<Home> {
-  TextEditingController _descriptionTEController = TextEditingController();
+  final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
+    backgroundColor: Colors.pink,
+    foregroundColor: Colors.white,
+    shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(10),
+    ),
+    minimumSize: Size( double.infinity,60) // You can adjust the radius
+  );
+
+  MyAlertDialog(context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Expanded(
+              child: AlertDialog(
+            title: Text("Alert!"),
+            content: Text("Do you want to delete"),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    MySnackBar('Delete Success', context);
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Yes')),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('No'))
+            ],
+          ));
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
-        // backgroundColor: Colors.blue,
+        title: Text("Home"),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column( // Use Column here to vertically arrange widgets
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Name',
-                        hintText: 'Enter your name',
-                        prefixIcon: Icon(Icons.search),
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.add),
-                    onPressed: () {
-                      // Add your onPressed code here!
-                    },
-                  ),
-                ],
+      // body: Center(
+      //   child: ElevatedButton(
+      //     child: Text("Here you go"),
+      //     onPressed: () {
+      //       MyAlertDialog(context);
+      //     },
+      //   ),
+      // ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: TextField(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "First name",
               ),
-              SizedBox(height: 16),
-              TextField(
-                controller: _descriptionTEController,
-                enabled: true,
-                maxLines: 5,
-                maxLength: 200,
-                onTap: () {
-                  print('Tapped on textfield');
-                },
-                onChanged: (String value) {
-                  print(value);
-                },
-                decoration: InputDecoration(
-                  label: Text('Description'),
-                  labelStyle: TextStyle(
-                      fontSize: 16
-                  ),
-                  hintText: 'Enter your description',
-                ),
-              ),
-              SizedBox(height: 16),
-              TextField(
-                enabled: true,
-                onChanged: (String value) {
-                  print(value);
-                },
-                obscureText: true,
-                controller: TextEditingController(),
-                decoration: InputDecoration(
-                  label: Text('Password'),
-                  labelStyle: TextStyle(
-                      fontSize: 16
-                  ),
-                  hintText: 'Enter your password',
-              ),
-              )
-            ],
+            ),
           ),
-        ),
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "Last name",
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "Email",
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: ElevatedButton(onPressed: (){},child: Text("Submit"),style: buttonStyle,),
+          ),
+        ],
       ),
     );
   }
 }
-//
-// class SettingsScreen extends StatelessWidget {
-//   const SettingsScreen({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       appBar: AppBar(
-//         title: Text('Settings'),
-//       ),
-//     );
-//   }
-// }
