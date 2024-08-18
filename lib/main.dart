@@ -1,16 +1,122 @@
+// Current SDK version: 3.22.1
 import 'package:flutter/material.dart';
 
+// TextField
+
 void main() {
-  runApp(MyApp());
+  runApp(IntroApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class IntroApp extends StatelessWidget {
+  const IntroApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: true,
       home: Home(),
+      title: 'Intro app',
+      theme: ThemeData(
+          brightness: Brightness.light,
+          appBarTheme: AppBarTheme(
+              backgroundColor: Colors.pink,
+              titleTextStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.2
+              )
+          ),
+          textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                  foregroundColor: Colors.pink,
+                  textStyle: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700
+                  )
+              )
+          ),
+          inputDecorationTheme: InputDecorationTheme(
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(
+                    color: Colors.green,
+                    width: 2
+                )
+            ),
+            disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(
+                    color: Colors.green,
+                    width: 2
+                )
+            ),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(
+                    color: Colors.blueAccent,
+                    width: 2
+                )
+            ),
+            labelStyle: TextStyle(
+                fontSize: 16
+            ),
+            hintStyle: TextStyle(
+                color: Colors.purple.shade200
+            ),
+          )
+      ),
+      darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          appBarTheme: AppBarTheme(
+              backgroundColor: Colors.green,
+              titleTextStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.2
+              )
+          ),
+          textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                  foregroundColor: Colors.green,
+                  textStyle: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700
+                  )
+              )
+          ),
+          inputDecorationTheme: InputDecorationTheme(
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(
+                    color: Colors.green,
+                    width: 2
+                )
+            ),
+            disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(
+                    color: Colors.green,
+                    width: 2
+                )
+            ),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(
+                    color: Colors.blueAccent,
+                    width: 2
+                )
+            ),
+            labelStyle: TextStyle(
+                fontSize: 16
+            ),
+            hintStyle: TextStyle(
+                color: Colors.purple.shade200
+            ),
+          )
+      ),
+      themeMode: ThemeMode.system,
     );
   }
 }
@@ -23,53 +129,93 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  MySnackBar(message, context) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
-  }
+  TextEditingController _descriptionTEController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Greeting App"),
+        title: Text('Home'),
+        // backgroundColor: Colors.blue,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          //crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(height: 20),
-            Text(
-              "Hello,World!",
-              style: TextStyle(
-                  fontSize: 28, color: Colors.red, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Text(
-              "Welcome to flutter!",
-              style: TextStyle(
-                fontSize: 22,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column( // Use Column here to vertically arrange widgets
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Name',
+                        hintText: 'Enter your name',
+                        prefixIcon: Icon(Icons.search),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.add),
+                    onPressed: () {
+                      // Add your onPressed code here!
+                    },
+                  ),
+                ],
               ),
-            ),
-            SizedBox(height: 20),
-            // Optional: Add your image here
-            Image.network(
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHfvJQdTD8IFAUS4jNkFrVYGai1NknAbHAMA&s',
-              height: 250,
-              width: 250,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                MySnackBar("Button Pressed!", context);
-              },
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-              child: Text("Press Me"),
-            ),
-          ],
+              SizedBox(height: 16),
+              TextField(
+                controller: _descriptionTEController,
+                enabled: true,
+                maxLines: 5,
+                maxLength: 200,
+                onTap: () {
+                  print('Tapped on textfield');
+                },
+                onChanged: (String value) {
+                  print(value);
+                },
+                decoration: InputDecoration(
+                  label: Text('Description'),
+                  labelStyle: TextStyle(
+                      fontSize: 16
+                  ),
+                  hintText: 'Enter your description',
+                ),
+              ),
+              SizedBox(height: 16),
+              TextField(
+                enabled: true,
+                onChanged: (String value) {
+                  print(value);
+                },
+                obscureText: true,
+                controller: TextEditingController(),
+                decoration: InputDecoration(
+                  label: Text('Password'),
+                  labelStyle: TextStyle(
+                      fontSize: 16
+                  ),
+                  hintText: 'Enter your password',
+              ),
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 }
+//
+// class SettingsScreen extends StatelessWidget {
+//   const SettingsScreen({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.white,
+//       appBar: AppBar(
+//         title: Text('Settings'),
+//       ),
+//     );
+//   }
+// }
